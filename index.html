@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hold'em Royale – Free Poker</title>
+<meta name="description" content="Free Texas Hold'em poker in your browser. Play bots, local multiplayer or online with friends. Fake money only.">
+<meta name="theme-color" content="#0b0e14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E♠️%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ MENU ============ -->
+<section id="screen-menu" class="screen active">
+  <div class="menu-card">
+    <h1 class="logo">♠ Hold'em <span>Royale</span> ♥</h1>
+    <p class="tag">Free poker. Fake money. Real bluffs.</p>
+    <div class="wallet big">💰 <span class="bank">$0</span></div>
+    <label class="namebox">Your name <input id="in-name" maxlength="14" autocomplete="off"></label>
+    <button id="btn-daily" class="btn gold wide">🎁 Daily bonus</button>
+    <button id="btn-bailout" class="btn wide" hidden>🆘 Borrow $500 from the casino</button>
+    <div class="menu-grid">
+      <button class="btn big" data-go="bots"><b>🤖 Play vs Bots</b><small>Cash tables &amp; Sit &amp; Go</small></button>
+      <button class="btn big" data-go="local"><b>👥 Local Multiplayer</b><small>Pass &amp; play on one device</small></button>
+      <button class="btn big" data-go="online"><b>🌐 Online Multiplayer</b><small>Play friends with a room code</small></button>
+      <button class="btn big" data-go="shop"><b>🛍️ Shop</b><small>Felts, cards, avatars, chips…</small></button>
+      <button class="btn big" data-go="profile"><b>📊 Profile &amp; Stats</b><small>Your record &amp; save data</small></button>
+    </div>
+    <p class="fine">All money is fake and saved only in this browser. No real gambling.</p>
+  </div>
+</section>
+
+<!-- ============ BOTS ============ -->
+<section id="screen-bots" class="screen">
+  <header class="hdr"><button class="btn ghost" data-go="menu">← Back</button><h2>Play vs Bots</h2><div class="wallet">💰 <span class="bank"></span></div></header>
+  <div class="content">
+    <h3 class="sect">Cash tables</h3>
+    <div id="bot-tables" class="cards-grid"></div>
+    <h3 class="sect">Tournament</h3>
+    <div id="bot-tourney" class="cards-grid"></div>
+  </div>
+</section>
+
+<!-- ============ LOCAL ============ -->
+<section id="screen-local" class="screen">
+  <header class="hdr"><button class="btn ghost" data-go="menu">← Back</button><h2>Local Multiplayer</h2><div class="wallet">💰 <span class="bank"></span></div></header>
+  <div class="content narrow">
+    <div class="panel">
+      <p>Pass the device around the table. Everyone starts with <b>$1,500</b> in free table chips (your bank isn't touched), blinds rise as the game goes on, and the last player standing wins. Cards are hidden between turns.</p>
+      <label>Number of players
+        <select id="local-count"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select>
+      </label>
+      <div id="local-names"></div>
+      <button id="btn-local-start" class="btn gold wide">Deal me in</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ONLINE ============ -->
+<section id="screen-online" class="screen">
+  <header class="hdr"><button id="btn-online-back" class="btn ghost">← Back</button><h2>Online Multiplayer</h2><div class="wallet">💰 <span class="bank"></span></div></header>
+  <div class="content">
+    <div id="on-main" class="two-col">
+      <div class="panel">
+        <h3>Host a table</h3>
+        <label>Stakes
+          <select id="on-stakes">
+            <option value="5,10">Blinds $5 / $10</option>
+            <option value="10,20" selected>Blinds $10 / $20</option>
+            <option value="25,50">Blinds $25 / $50</option>
+            <option value="100,200">Blinds $100 / $200</option>
+          </select>
+        </label>
+        <p id="on-buyin" class="fine"></p>
+        <button id="btn-host" class="btn gold wide">Create table</button>
+      </div>
+      <div class="panel">
+        <h3>Join a table</h3>
+        <label>Room code
+          <input id="on-code" maxlength="5" placeholder="ABCDE" autocomplete="off" style="text-transform:uppercase;letter-spacing:.3em;text-align:center;font-size:1.4rem">
+        </label>
+        <button id="btn-join" class="btn gold wide">Join</button>
+      </div>
+    </div>
+    <div id="on-lobby" class="panel" hidden></div>
+    <p class="fine center">Online games connect players directly (peer-to-peer). Most networks work; a few strict corporate or school networks block it. Everyone buys in from their own bank.</p>
+  </div>
+</section>
+
+<!-- ============ SHOP ============ -->
+<section id="screen-shop" class="screen">
+  <header class="hdr"><button class="btn ghost" data-go="menu">← Back</button><h2>Shop</h2><div class="wallet">💰 <span class="bank"></span></div></header>
+  <div class="content">
+    <div id="shop-tabs" class="tabs"></div>
+    <div id="shop-grid" class="shop-grid"></div>
+  </div>
+</section>
+
+<!-- ============ PROFILE ============ -->
+<section id="screen-profile" class="screen">
+  <header class="hdr"><button class="btn ghost" data-go="menu">← Back</button><h2>Profile &amp; Stats</h2><div class="wallet">💰 <span class="bank"></span></div></header>
+  <div class="content narrow">
+    <div id="profile-body"></div>
+  </div>
+</section>
+
+<!-- ============ TABLE ============ -->
+<section id="screen-table" class="screen">
+  <div class="tbar">
+    <button id="btn-leave" class="btn small ghost">☰ Leave</button>
+    <div id="tbl-info" class="tbl-info"></div>
+    <button id="btn-mute" class="btn small ghost" title="Sound">🔊</button>
+  </div>
+  <div class="table-area">
+    <div class="table" id="table">
+      <div class="felt"></div>
+      <div class="tcenter">
+        <div id="pot" class="pot"></div>
+        <div id="board" class="board"></div>
+        <div id="myrank" class="myrank"></div>
+      </div>
+      <div id="seats"></div>
+    </div>
+  </div>
+  <div id="status" class="status"></div>
+  <div id="actionbar" class="actionbar">
+    <div id="act-main" class="act-main">
+      <div class="act-row">
+        <button id="btn-fold" class="btn danger">Fold</button>
+        <button id="btn-call" class="btn">Check</button>
+        <button id="btn-raise" class="btn gold">Raise</button>
+      </div>
+      <div id="raise-box" class="raise-box">
+        <button class="btn small" data-frac="0.5">½ Pot</button>
+        <button class="btn small" data-frac="0.75">¾ Pot</button>
+        <button class="btn small" data-frac="1">Pot</button>
+        <input id="raise-range" type="range" min="0" max="100" value="0">
+        <input id="raise-num" type="number" min="0" value="0">
+        <button class="btn small" data-frac="max">All-in</button>
+      </div>
+    </div>
+    <div id="act-after" class="act-after" hidden>
+      <button id="btn-next" class="btn gold">Next hand ▶</button>
+      <button id="btn-rebuy" class="btn" hidden>Rebuy</button>
+    </div>
+  </div>
+  <details id="logbox" class="logbox"><summary>Hand log</summary><div id="log"></div></details>
+</section>
+
+<div id="pass" class="overlay" hidden>
+  <div class="overlay-card">
+    <div id="pass-av" class="big-av"></div>
+    <h2 id="pass-name"></h2>
+    <p>Pass the device to this player, then tap to see your cards.</p>
+    <button id="btn-reveal" class="btn gold big">Show my cards</button>
+  </div>
+</div>
+<div id="modal" class="overlay" hidden><div class="overlay-card" id="modal-card"></div></div>
+<div id="fx-layer"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js';document.head.appendChild(s)"></script>
+<script src="engine.js"></script>
+<script src="ai.js"></script>
+<script src="store.js"></script>
+<script src="controllers.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>
